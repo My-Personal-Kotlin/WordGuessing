@@ -29,22 +29,9 @@ class GameFragment : Fragment() {
         // Inflate view and obtain an instance of the binding class
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
 
-        binding.correctButton.setOnClickListener {
-            gameViewModel.onCorrect()
-        }
-        binding.skipButton.setOnClickListener {
-            gameViewModel.onSkip()
-        }
+        binding.gameViewModel = gameViewModel
 
-        gameViewModel.score.observe(viewLifecycleOwner, Observer {
-            binding.scoreText.text = "Score : ${it}"
-        })
-        gameViewModel.word.observe(viewLifecycleOwner, Observer {
-            binding.wordText.text = it.uppercase()
-        })
-        gameViewModel.remainTime.observe(viewLifecycleOwner, Observer {
-            binding.timerText.text = DateUtils.formatElapsedTime( it)
-        })
+        binding.setLifecycleOwner(this)
 
         gameViewModel.eventGameFinished.observe(viewLifecycleOwner, Observer {
             if(it){

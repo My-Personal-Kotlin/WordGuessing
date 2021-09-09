@@ -5,6 +5,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
@@ -44,6 +45,10 @@ class GameViewModel : ViewModel() {
     private val _remainTime = MutableLiveData<Long>()
     val remainTime: LiveData<Long>
         get()= _remainTime
+
+    val remainTimeString = Transformations.map(remainTime){
+        DateUtils.formatElapsedTime(it)
+    }
 
 
     // The list of words - the front of the list is the next word to guess
