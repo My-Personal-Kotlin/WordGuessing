@@ -1,6 +1,7 @@
 package com.wordguessing.screens.game
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,12 +27,7 @@ class GameFragment : Fragment() {
         gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
         // Inflate view and obtain an instance of the binding class
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.game_fragment,
-            container,
-            false
-        )
+        binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
 
         binding.correctButton.setOnClickListener {
             gameViewModel.onCorrect()
@@ -46,20 +42,19 @@ class GameFragment : Fragment() {
         gameViewModel.word.observe(viewLifecycleOwner, Observer {
             binding.wordText.text = it.uppercase()
         })
+        gameViewModel.remainTime.observe(viewLifecycleOwner, Observer {
+            binding.timerText.text = DateUtils.formatElapsedTime( it)
+        })
+
+        gameViewModel.eventGameFinished.observe(viewLifecycleOwner, Observer {
+            if(it){
+                findNavController().navigate(GameFragmentDirections.actionGameToScore(gameViewModel.score.value?:0))
+                gameViewModel.resetGameFinished()
+            }
+        })
 
         return binding.root
 
-    }
-
-
-
-    /**
-     * Called when the game is finished
-     */
-    private fun gameFinished() {
-        val action = GameFragmentDirections.actionGameToScore(
-            gameViewModel.score.value?:0)
-        findNavController().navigate(action)
     }
 
 }
