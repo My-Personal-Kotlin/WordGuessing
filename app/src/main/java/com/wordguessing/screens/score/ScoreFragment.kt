@@ -13,21 +13,27 @@ import com.wordguessing.databinding.ScoreFragmentBinding
 
 class ScoreFragment : Fragment() {
 
+    private lateinit var binding :  ScoreFragmentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate view and obtain an instance of the binding class.
-        val binding: ScoreFragmentBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.score_fragment,
             container,
             false
         )
 
+        // 1 way
         // Get args using by navArgs property delegate
         val scoreFragmentArgs by navArgs<ScoreFragmentArgs>()
         binding.scoreText.text = scoreFragmentArgs.score.toString()
+
+        // 2 way
+//        binding.scoreText.text =ScoreFragmentArgs.fromBundle(requireArguments()).score.toString()
         binding.playAgainButton.setOnClickListener { onPlayAgain() }
 
         return binding.root

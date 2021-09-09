@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.text.toUpperCase
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.wordguessing.R
 import com.wordguessing.databinding.GameFragmentBinding
+import java.util.*
 
 class GameFragment : Fragment() {
+
     // The current word
     private var word = ""
 
@@ -38,8 +41,9 @@ class GameFragment : Fragment() {
 
         binding.correctButton.setOnClickListener { onCorrect() }
         binding.skipButton.setOnClickListener { onSkip() }
-        updateScoreText()
-        updateWordText()
+
+//        updateScoreText()
+//        updateWordText()
         return binding.root
 
     }
@@ -71,7 +75,7 @@ class GameFragment : Fragment() {
             "roll",
             "bubble"
         )
-        wordList.shuffle()
+        wordList.shuffle() // thats why we have to set it to MutableList
     }
 
     /**
@@ -94,6 +98,7 @@ class GameFragment : Fragment() {
         }
         updateWordText()
         updateScoreText()
+        binding.invalidateAll()
     }
 
     /** Methods for buttons presses **/
@@ -111,12 +116,12 @@ class GameFragment : Fragment() {
     /** Methods for updating the UI **/
 
     private fun updateWordText() {
-        binding.wordText.text = word
+        binding.wordText.text = word.uppercase()
 
     }
 
     private fun updateScoreText() {
-        binding.scoreText.text = score.toString()
+        binding.scoreText.text = "Score : ${score}"
     }
 
 }
