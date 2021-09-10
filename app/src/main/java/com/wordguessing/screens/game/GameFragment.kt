@@ -26,11 +26,11 @@ class GameFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        Log.v("GameViewModel","ViewModelProvider called this ! ")
-        gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
-
         // Inflate view and obtain an instance of the binding class
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
+
+        Log.v("GameViewModel","ViewModelProvider called this ! ")
+        gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
         binding.gameViewModel = gameViewModel
 
